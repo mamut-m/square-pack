@@ -103,3 +103,6 @@ ENV/
 #eclipse projects
 .project
 .pydevproject
+
+#data shit
+square_pack/data/*.png
