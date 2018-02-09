@@ -9,6 +9,13 @@ import square_pack
 
 import cv2
 import numpy as np
+import sys
+
+if sys.version_info[0] < 3:
+    cv_filled=cv2.cv.CV_FILLED
+else:
+    pass
+    cv_filled=cv2.FILLED
 
 frame =0
 def _visualize(nx,ny,ns,a,w,h,save =False):
@@ -34,7 +41,7 @@ def _visualize(nx,ny,ns,a,w,h,save =False):
                 hue = (hue + hue_step) % (max_hue-1)
                 color = cv2.cvtColor(np.array([[(hue,255,255)]],dtype=np.uint8),cv2.COLOR_HSV2BGR)
                 color = color[0,0].astype("int")
-                cv2.rectangle(img, (ix*a,iy*a), ((ix+1)*a-1,(iy+1)*a-1), color, cv2.cv.CV_FILLED )
+                cv2.rectangle(img, (ix*a,iy*a), ((ix+1)*a-1,(iy+1)*a-1), color, cv_filled )
                 cv2.putText(img, str(cnt), org=(ix*a,(iy+1)*a-1) ,fontFace= cv2.FONT_HERSHEY_PLAIN, fontScale=0.75, color=(0,0,0))
                 cnt = cnt +1
             cv2.rectangle(img, (ix*a,iy*a), ((ix+1)*a-1,(iy+1)*a-1), (128,128,128) ) 
@@ -69,7 +76,7 @@ def _calc_brute_force(ns,w,h):
 
 def test2():
     for h,w  in [(480, 640)]:
-        for ns in range(1,h*w/20**2):
+        for ns in range(1,int(floor(h*w/20))**2):
             f=w/float(h)
             a, nx, ny = calc(ns,w,h)
             print("a", a, "(" , nx, "x", ny, ") rects", " with ", nx*ny-ns," that are not used") 
