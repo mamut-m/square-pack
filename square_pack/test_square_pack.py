@@ -11,10 +11,9 @@ import cv2
 import numpy as np
 import sys
 
-if sys.version_info[0] < 3:
+try: # opencv 2
     cv_filled=cv2.cv.CV_FILLED
-else:
-    pass
+except: #opencv >= 3 
     cv_filled=cv2.FILLED
 
 frame =0
