@@ -31,6 +31,16 @@ def calc(ns,w,h):
             break   
     return a, nx, ny 
 
+def _calc_rest_area(a,ns,h,w):
+    """ Calculates the rest area which is to be minimized
+    @param a: the length of one square side
+    @param ns: the number of squares
+    @param h: the height of the available space in pixels
+    @param w: the width of the square in pixels
+    @return The rest area in pixels^2 
+    """
+    return h*w - a**2*ns 
+
 if __name__ == '__main__':
     doctest.testmod() #runs a simple doctest
     

@@ -3,11 +3,13 @@ Created on Feb 9, 2018
 some stuff to test the square pack
 @author: murschitzm
 '''
-
+from __future__ import print_function #python 3 print function
 from square_pack import *
+import square_pack
 
 import cv2
 import numpy as np
+
 frame =0
 def _visualize(nx,ny,ns,a,w,h,save =False):
     """
@@ -37,22 +39,14 @@ def _visualize(nx,ny,ns,a,w,h,save =False):
                 cnt = cnt +1
             cv2.rectangle(img, (ix*a,iy*a), ((ix+1)*a-1,(iy+1)*a-1), (128,128,128) ) 
     if save: 
-        cv2.imwrite("data/out_%05i.png" % (frame ),img)#_%ix%i_a%d_r%i#,nx,ny,a, _calc_rest_area(a,ns,h,w)
+        cv2.imwrite("data/out_%05i.png" % (frame ),img)
     frame = frame +1
     cv2.imshow("res", img)
     cv2.waitKey(1)
     
-def _calc_rest_area(a,ns,h,w):
-    """ Calculates the rest area which is to be minimized
-    @param a: the length of one square side
-    @param ns: the number of squares
-    @param h: the height of the available space in pixels
-    @param w: the width of the square in pixels
-    @return The rest area in pixels^2 
-    """
-    return h*w - a**2*ns 
 
 
+from math import ceil
 def _calc_brute_force(ns,w,h):
     """
     function to check that all is correct. not good at all but definitley correct
@@ -65,11 +59,11 @@ def _calc_brute_force(ns,w,h):
                 ny = int(ceil((ns + nr)/nxo))
                 nx = int(ceil(nxo))
                 a  = int(floor((w -  rx)/nx))
-                cost = _calc_rest_area(a,ns,h,w)
+                cost = square_pack._calc_rest_area(a,ns,h,w)
                 if cost < best[0]:
                     best = (cost, a, nx, ny, nxo)
     cost, a, nx, ny, nxo = best
-    print nxo
+    print(nxo)
     return a, nx, ny 
 
 
@@ -78,7 +72,7 @@ def test2():
         for ns in range(1,h*w/20**2):
             f=w/float(h)
             a, nx, ny = calc(ns,w,h)
-            print "a", a, "(" , nx, "x", ny, ") rects", " with ", nx*ny-ns," that are not used" 
+            print("a", a, "(" , nx, "x", ny, ") rects", " with ", nx*ny-ns," that are not used") 
             _visualize(nx,ny,ns,a,w,h,save=True)
 
 def test_vis():
